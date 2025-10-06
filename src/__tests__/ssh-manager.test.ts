@@ -48,7 +48,7 @@ describe('SSHConnectionManager', () => {
 
       // Dynamically import to trigger constructor with new env
       await expect(async () => {
-        const { SSHConnectionManager } = await import('../index.js');
+        const { SSHConnectionManager } = await import('../ssh-manager.js');
         new SSHConnectionManager();
       }).rejects.toThrow('SSH_HOST environment variable is required');
     });
@@ -57,7 +57,7 @@ describe('SSHConnectionManager', () => {
       delete process.env.SSH_USERNAME;
 
       await expect(async () => {
-        const { SSHConnectionManager } = await import('../index.js');
+        const { SSHConnectionManager } = await import('../ssh-manager.js');
         new SSHConnectionManager();
       }).rejects.toThrow('SSH_USERNAME environment variable is required');
     });
@@ -67,7 +67,7 @@ describe('SSHConnectionManager', () => {
       delete process.env.SSH_PASSWORD;
 
       await expect(async () => {
-        const { SSHConnectionManager } = await import('../index.js');
+        const { SSHConnectionManager } = await import('../ssh-manager.js');
         new SSHConnectionManager();
       }).rejects.toThrow('Either SSH_PRIVATE_KEY_PATH or SSH_PASSWORD environment variable is required');
     });
@@ -76,14 +76,14 @@ describe('SSHConnectionManager', () => {
       delete process.env.SSH_PRIVATE_KEY_PATH;
       process.env.SSH_PASSWORD = 'test-password';
 
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       expect(() => new SSHConnectionManager()).not.toThrow();
     });
   });
 
   describe('connect', () => {
     it('should connect successfully with private key', async () => {
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
 
       await manager.connect();
@@ -101,7 +101,7 @@ describe('SSHConnectionManager', () => {
       delete process.env.SSH_PRIVATE_KEY_PATH;
       process.env.SSH_PASSWORD = 'test-password';
 
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
 
       await manager.connect();
@@ -117,7 +117,7 @@ describe('SSHConnectionManager', () => {
     it('should handle connection failure', async () => {
       mockSSH.connect.mockRejectedValueOnce(new Error('Connection failed'));
 
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
 
       await expect(manager.connect()).rejects.toThrow('Failed to connect to SSH server: Connection failed');
@@ -127,7 +127,7 @@ describe('SSHConnectionManager', () => {
     it('should use custom port if provided', async () => {
       process.env.SSH_PORT = '2222';
 
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
 
       await manager.connect();
@@ -140,7 +140,7 @@ describe('SSHConnectionManager', () => {
 
   describe('executeCommand', () => {
     it('should execute command successfully', async () => {
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
       await manager.connect();
 
@@ -161,7 +161,7 @@ describe('SSHConnectionManager', () => {
         code: 1,
       });
 
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
       await manager.connect();
 
@@ -175,7 +175,7 @@ describe('SSHConnectionManager', () => {
     });
 
     it('should auto-connect if not connected', async () => {
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
 
       const result = await manager.executeCommand('ls');
@@ -192,7 +192,7 @@ describe('SSHConnectionManager', () => {
         code: null,
       });
 
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
       await manager.connect();
 
@@ -204,7 +204,7 @@ describe('SSHConnectionManager', () => {
 
   describe('disconnect', () => {
     it('should disconnect successfully', async () => {
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
       await manager.connect();
 
@@ -215,7 +215,7 @@ describe('SSHConnectionManager', () => {
     });
 
     it('should not error if already disconnected', async () => {
-      const { SSHConnectionManager } = await import('../index.js');
+      const { SSHConnectionManager } = await import('../ssh-manager.js');
       const manager = new SSHConnectionManager();
 
       await expect(manager.disconnect()).resolves.not.toThrow();

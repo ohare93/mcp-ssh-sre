@@ -1,13 +1,15 @@
 {
   "name": "mcp-ssh-unraid",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "MCP server for SSH access to Unraid",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/index.ts",
+    "dev:http": "tsx src/http-server.ts",
     "start": "node dist/index.js",
+    "start:http": "node dist/http-server.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui"
@@ -21,7 +23,11 @@
   "license": "ISC",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.4",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "express": "^5.1.0",
     "node-ssh": "^13.2.0",
     "zod": "^3.24.1"
   },

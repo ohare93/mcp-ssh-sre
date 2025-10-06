@@ -17,6 +17,7 @@ Instead of manually running `docker logs`, `smartctl`, `docker inspect`, parsing
 ## Features
 
 - **86 specialized tools** for comprehensive Unraid server management through natural language
+- **Dual transport modes** - Run via stdio (local) or HTTP/SSE (network-accessible)
 - **Read-only by design** - Zero risk of accidental system modifications
 - **Docker container management** - Inspect, logs, stats, environment variables, port mappings, network topology, and inter-container communication testing
 - **Storage & array management** - Parity checks, SMART data analysis, drive temperatures, array sync status, mover logs, cache usage, and share configuration
@@ -128,6 +129,14 @@ npm run build
 
 ## Docker Deployment
 
+**Choose your deployment mode:**
+- **Stdio Mode**: Best for local development or when connecting directly from Claude Desktop on the same machine
+- **HTTP Mode**: Ideal for running on your Unraid server itself or when accessing from remote clients
+
+### Stdio Mode (Default)
+
+For use with local MCP clients (like Claude Desktop):
+
 ```bash
 # Build and run with Docker
 docker build -t mcp-ssh-unraid .
@@ -135,6 +144,62 @@ docker run -d --env-file .env mcp-ssh-unraid
 
 # Or use Docker Compose
 docker-compose up -d
+```
+
+### HTTP/SSE Mode (Network-Accessible)
+
+For remote access or running as a service on your Unraid server:
+
+```bash
+# Build and run with Docker
+docker build -f Dockerfile.http -t mcp-ssh-unraid-http .
+docker run -d -p 3000:3000 --env-file .env mcp-ssh-unraid-http
+
+# Or use Docker Compose (recommended)
+docker-compose -f docker-compose.http.yml up -d
+```
+
+#### Environment Variables for HTTP Mode
+
+In addition to the SSH configuration variables, HTTP mode supports:
+
+```bash
+HTTP_PORT=3000           # Port for HTTP server (default: 3000)
+CORS_ORIGIN=*            # CORS origin (default: *, allows all origins)
+```
+
+#### Accessing the HTTP Server
+
+Once running, the server provides:
+
+- **Health endpoint**: `http://localhost:3000/health`
+- **MCP endpoint**: `http://localhost:3000/mcp`
+
+#### MCP Client Configuration for HTTP
+
+Add to your MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "unraid-ssh-http": {
+      "url": "http://your-server:3000/mcp",
+      "transport": "http"
+    }
+  }
+}
+```
+
+Or for Claude Desktop with HTTP support:
+
+```json
+{
+  "mcpServers": {
+    "unraid-ssh-http": {
+      "url": "http://your-unraid-server.local:3000/mcp"
+    }
+  }
+}
 ```
 
 ## Contributing
