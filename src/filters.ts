@@ -39,13 +39,13 @@ export interface OutputFilters {
  * ```
  */
 export const outputFiltersSchema = z.object({
-  grep: z.string().optional().describe("Filter by pattern (case-insensitive)"),
-  grepCaseSensitive: z.boolean().optional().default(false).describe("Case-sensitive grep"),
-  head: z.number().int().positive().optional().describe("First N lines"),
-  tail: z.number().int().positive().optional().describe("Last N lines"),
-  sort: z.union([z.boolean(), z.literal('reverse')]).optional().describe("Sort lines"),
-  uniq: z.boolean().optional().describe("Remove duplicates"),
-  wc: z.enum(['lines', 'words', 'chars']).optional().describe("Count instead of content"),
+  grep: z.string().optional(),
+  grepCaseSensitive: z.boolean().optional().default(false),
+  head: z.number().optional(),
+  tail: z.number().optional(),
+  sort: z.union([z.boolean(), z.literal('reverse')]).optional(),
+  uniq: z.boolean().optional(),
+  wc: z.enum(['lines', 'words', 'chars']).optional(),
 });
 
 /**

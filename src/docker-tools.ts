@@ -17,9 +17,9 @@ export function registerDockerTools(
   // Tool 1: docker list containers - List all containers with status
   server.tool(
     "docker list containers",
-    "List all Docker containers with ID, name, image, status, state, and ports.",
+    "List Docker containers with ID, name, image, status, state, and ports.",
     {
-      all: z.boolean().optional().default(true).describe("Include stopped containers"),
+      all: z.boolean().optional().default(true).describe("Include stopped"),
       ...outputFiltersSchema.shape,
     },
     async (args) => {

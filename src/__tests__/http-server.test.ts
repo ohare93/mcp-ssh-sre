@@ -65,7 +65,7 @@ describe('HTTP Server', () => {
     const data = await response.json() as Record<string, any>;
     expect(data).toHaveProperty('status');
     expect(data).toHaveProperty('server', 'mcp-ssh-unraid');
-    expect(data).toHaveProperty('version', '1.0.0');
+    expect(data).toHaveProperty('version', '1.0.1');
     expect(data).toHaveProperty('transport', 'http');
     expect(data).toHaveProperty('ssh_connected');
 
@@ -87,11 +87,11 @@ describe('HTTP Server', () => {
         jsonrpc: '2.0',
         method: 'initialize',
         params: {
-          protocolVersion: '1.0.0',
+          protocolVersion: '1.0.1',
           capabilities: {},
           clientInfo: {
             name: 'test-client',
-            version: '1.0.0',
+            version: '1.0.1',
           },
         },
         id: 1,
