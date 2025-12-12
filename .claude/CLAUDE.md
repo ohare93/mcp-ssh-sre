@@ -34,7 +34,7 @@ After bumping the version in this project, you MUST update the deployment config
 
 2. **Build and test:**
    - Run `npm run build && npm test`
-   - Verify all 403 tests pass
+   - Verify all 161 tests pass
 
 3. **Build and publish Docker image:**
    - Build with both version tag and latest:
@@ -58,4 +58,4 @@ When testing the deployed MCP server, use the MCP tools (e.g., `mcp__unraid-ssh_
 
 ## Filter System
 
-All 82 tools support comprehensive output filtering. Filters are defined in `src/filters.ts` and applied via `...outputFiltersSchema.shape` pattern. When adding new tools, always include filter support.
+All 79 tools support comprehensive output filtering. Filters are defined in `src/filters.ts` and applied via `...outputFiltersSchema.shape` pattern. When adding new tools, always include filter support.

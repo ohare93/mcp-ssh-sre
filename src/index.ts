@@ -36,7 +36,7 @@ async function main() {
   // Create MCP server
   const server = new McpServer({
     name: "ssh-unraid-server",
-    version: "1.1.1",
+    version: "1.1.2",
   });
 
   // Create SSH executor adapter for tool modules
